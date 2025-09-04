@@ -1,23 +1,24 @@
 const cron = require('node-cron');
 const { enviarMensaje } = require('./mensaje.js');
 
+const CONTACTO = '573228237649@c.us'
 const MSG_SALUDOS = [
-    'Hola grupo 👋, este es un mensaje automático enviado desde WhatsApp de Yony',
-    '¡Qué tal grupo! 🚀 Este es un recordatorio automático',
-    'Saludos 👨‍💻, este es un mensaje automático para el grupo',
-];
+    'Buenos días, ¿cómo amaneció?',
+    'Buenos días, ¿cómo está?',
+    'Buenos días, ¿cómo le va?',
+]
 
-function programador_tareas(cliente, grupoId) {
-    const tiempo = '0 51 23 * * *'; // Todos los días a las 23:35
+function programador_tareas(cliente) {
+    const tiempo = '0 10 23 * * *';
     if (cron.validate(tiempo)) {
-        console.log('⏰ Cron inicializado');
+        console.log('Cron inicializado');
         cron.schedule(tiempo, async () => {
             try {
                 const saludo = MSG_SALUDOS[Math.floor(Math.random() * MSG_SALUDOS.length)];
-                await enviarMensaje(cliente, grupoId, saludo);
-                console.log('✅ Mensaje enviado al grupo');
+                await enviarMensaje(cliente, CONTACTO, saludo);
+                console.log('Mensaje enviado');
             } catch (error) {
-                console.log('❌ Error en cron', error);
+                console.log('Error en cron', error);
             }
         });
     }
